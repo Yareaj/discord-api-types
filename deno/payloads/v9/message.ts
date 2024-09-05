@@ -188,6 +188,8 @@ export interface APIMessage {
 	interaction_metadata?: APIMessageInteractionMetadata;
 	/**
 	 * Sent if the message is a response to an Interaction
+	 *
+	 * @deprecated In favor of `interaction_metadata`
 	 */
 	interaction?: APIMessageInteraction;
 	/**
