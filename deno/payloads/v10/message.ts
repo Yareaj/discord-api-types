@@ -187,8 +187,6 @@ export interface APIMessage {
 	referenced_message?: APIMessage | null;
 	/**
 	 * Sent if the message is sent as a result of an interaction
-	 *
-	 * @unstable
 	 */
 	interaction_metadata?: APIMessageInteractionMetadata;
 	/**
@@ -308,6 +306,10 @@ export enum MessageType {
 	GuildIncidentAlertModeDisabled,
 	GuildIncidentReportRaid,
 	GuildIncidentReportFalseAlarm,
+
+	PurchaseNotification = 44,
+
+	PollResult = 46,
 }
 
 /**
@@ -367,7 +369,7 @@ export enum MessageReferenceType {
 	/**
 	 * A standard reference used by replies
 	 */
-	Default = 0,
+	Default,
 	/**
 	 * Reference used to point to a message at a point in time
 	 */
@@ -474,6 +476,13 @@ export interface APIMessageSnapshot {
 	message: APIMessageSnapshotFields;
 	/**
 	 * Id of the origin message's guild
+	 *
+	 * @deprecated This field doesn't accurately reflect the Discord API as it doesn't exist nor is documented and will
+	 * be removed in the next major version.
+	 *
+	 * It was added in {@link https://github.com/discord/discord-api-docs/pull/6833/commits/d18f72d06d62e6b1d51ca2c1ef308ddc29ff3348 | d18f72d}
+	 * but was later removed before the PR ({@link https://github.com/discord/discord-api-docs/pull/6833 | discord-api-docs#6833}) was merged.
+	 * See {@link https://github.com/discordjs/discord-api-types/pull/1084 | discord-api-types#1084} for more information.
 	 */
 	guild_id?: Snowflake;
 }
@@ -644,6 +653,10 @@ export enum EmbedType {
 	 * @unstable This embed type is currently not documented by Discord, but it is returned in the auto moderation system messages.
 	 */
 	AutoModerationMessage = 'auto_moderation_message',
+	/**
+	 * Poll result embed
+	 */
+	PollResult = 'poll_result',
 }
 
 /**
@@ -1303,12 +1316,15 @@ export type APIModalActionRowComponent = APITextInputComponent;
 export type APIMessageSnapshotFields = Pick<
 	APIMessage,
 	| 'attachments'
+	| 'components'
 	| 'content'
 	| 'edited_timestamp'
 	| 'embeds'
 	| 'flags'
 	| 'mention_roles'
 	| 'mentions'
+	| 'sticker_items'
+	| 'stickers'
 	| 'timestamp'
 	| 'type'
 >;
